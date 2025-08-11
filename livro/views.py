@@ -3,6 +3,7 @@ from typing import List #estudar
 from django.http import HttpRequest, JsonResponse
 
 from autor.models import Autor
+from editora.models import Editora
 from livro.models import Livro
 
 def listar_livros(request: HttpRequest):
@@ -31,7 +32,9 @@ def cadastrar_livro(request: HttpRequest, autor_id:int = None):
                 data: dict =json.loads(request.body)
                 autor = Autor.objects.get(id=data["autor"])
                 data.pop("autor")
-                livro = Livro(**data, autor=autor)
+                editora = Editora.objects.get(id=data["editora"])
+                data.pop("editora")
+                livro = Livro(**data, autor=autor, editora=editora)
                 livro.clean()
                 livro.save()
                 return JsonResponse({"id":livro.id}, status=201)

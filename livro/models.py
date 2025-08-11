@@ -24,10 +24,11 @@ class Livro(models.Model):
         ]
         
     def to_dict(self):
+        self= self
         return {
             'id': self.id,
             'titulo':self.titulo,
-            'editora':self.editora,
+            'editora':self.editora.nome,
             'data_lancamento':self.data_lancamento,
         }
         
